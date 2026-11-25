@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>아쉽지만 다음 기회에</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      color: #1e293b;
+      padding: 20px;
+    }
+    .card {
+      max-width: 430px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 34px 28px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.1);
+      animation: fadeUp 0.4s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tag {
+      display: inline-block;
+      background: #e2e8f0;
+      color: #475569;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 1.55rem; margin-bottom: 8px; }
+    .desc { color: #64748b; }
+    .info {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 18px 0;
+    }
+    .info strong { color: #334155; font-size: 1.2rem; }
+    .cheer {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #e2e8f0;
+      color: #475569;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      transition: opacity 0.15s ease;
+    }
+    .action-btn {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #334155;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .action-btn:hover { background: #f8fafc; }
+    .detail {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #f8fafc;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #475569;
+    }
+    .detail.open { display: block; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="tag">NOT THIS TIME</div>
+    <h1>아쉽지만 이번엔 꽝이에요</h1>
+    <p class="desc">참여해 주셔서 감사합니다. 다음 기회를 노려보세요!</p>
+
+    <div class="info">
+      <div>기록된 방문 순번: <strong>#{{ visitor_num }}</strong></div>
+      <div class="cheer" id="cheerText">다음 행운은 바로 옆 순번에 있을지도 몰라요!</div>
+    </div>
+
+    <button class="action-btn" type="button" id="cheerBtn">다른 응원 메시지 보기</button>
+    <button class="action-btn" type="button" id="toggleBtn" style="margin-top: 8px;">참여 안내 자세히 보기</button>
+
+    <div class="detail" id="detailBox">
+      이벤트 공정성을 위해 한 브라우저/디바이스당 1회만 카운트됩니다. 새로고침해도 순번은 추가로 올라가지 않습니다.
+    </div>
+  </div>
+
+  <script>
+    const messages = [
+      "다음 행운은 바로 옆 순번에 있을지도 몰라요!",
+      "오늘의 작은 아쉬움이 내일의 큰 행운으로 바뀔 거예요.",
+      "#{{ visitor_num }}번째 방문 기록이 안전하게 남았습니다.",
+      "가벼운 마음으로 한 번 더 웃어봐요 :)"
+    ];
+    let idx = 0;
+    const cheerText = document.getElementById("cheerText");
+    const cheerBtn = document.getElementById("cheerBtn");
+
+    cheerBtn.addEventListener("click", () => {
+      idx = (idx + 1) % messages.length;
+      cheerText.style.opacity = 0;
+      setTimeout(() => {
+        cheerText.textContent = messages[idx];
+        cheerText.style.opacity = 1;
+      }, 120);
+    });
+
+    const toggleBtn = document.getElementById("toggleBtn");
+    const detailBox = document.getElementById("detailBox");
+    toggleBtn.addEventListener("click", () => {
+      const isOpen = detailBox.classList.toggle("open");
+      toggleBtn.textContent = isOpen ? "참여 안내 접기" : "참여 안내 자세히 보기";
+    });
+  </script>
+</body>
+</html>
